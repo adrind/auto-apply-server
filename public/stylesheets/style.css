@@ -1,0 +1,22 @@
+body {
+  padding: 0 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+
+a {
+  color: #00B7FF; }
+
+.header {
+  background-color: #399fd3;
+  height: 200px;
+  color: #fff;
+  text-align: center; }
+  .header div {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4.8rem; }
+
+.profile {
+  max-width: 60rem; }
+
+/*# sourceMappingURL=style.css.map */

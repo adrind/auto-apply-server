@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  h2="Profile"
+  div(class="profile")
+    form
+      div(class="form-group")
+        label(for="name1")="Name"
+        input(type="text" class="form-control" id="name1" placeholder="Enter name" value=resume.profile.firstName)
+      div(class="form-group")
+        label(for="address")="Address"
+        input(type="text" class="form-control" id="address" placeholder="Enter address" value=resume.profile.address)
+      div(class="form-group")
+        label(for="city")="City"
+        input(type="text" class="form-control" id="city" placeholder="Enter city" value=resume.profile.city)
+      div(class="form-group")
+        label(for="state")="State"
+        input(type="text" class="form-control" id="state" placeholder="Enter state" value=resume.profile.state)
+      button(type="submit" class="btn btn-primary")="Update Profile"
+
+  h2="Jobs"
+  form
+    each job, i in resume.jobs
+      div(class="form-group")
+        label(for="title"+i)=Title
+          input(type="text" class="form-control" id="title"+i value=job.fields.title)
+    button(type="submit" class="btn btn-primary")="Update jobs"
+
+
+
+
