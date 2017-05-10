@@ -166,7 +166,7 @@ router.get('/auth', (req, res, next) => {
     Promise.all([makeFacebookAuthRequest(code), makeAppAccessTokenRequest()]).then(responses => {
         const accessToken = responses[0].access_token;
         const appAccessToken = responses[1].access_token;
-        validateFacebookAccessToken(accessToken, appAccessToken).then(body => {
+        makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(body => {
             res.send({status: 'success', data: body.data})
         });
     });
@@ -193,7 +193,7 @@ const makeFacebookAuthRequest = function(code) {
     return makeRequest(`https://graph.facebook.com/v2.9/oauth/access_token?client_id=${FB_CLIENT_ID}&redirect_uri=${FB_REDIRECT_URI}&client_secret=${FB_CLIENT_SECRET}&code=${code}`);
 };
 
-const makeFacebookAccessTokenRequest = function(token, appToken) {
+const makeFacebookValidateTokenRequest = function(token, appToken) {
     return makeRequest(`https://graph.facebook.com/debug_token?input_token=${token}&access_token=${appToken}`);
 };
 
