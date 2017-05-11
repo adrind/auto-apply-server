@@ -167,9 +167,13 @@ router.get('/auth', (req, res, next) => {
         const accessToken = responses[0].access_token;
         const appAccessToken = responses[1].access_token;
         makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(body => {
-            res.send({status: 'success', data: body.data})
+            res.render('resume')
         });
     });
+});
+
+router.get('/testResume', (req, res) => {
+    res.render('resume');
 });
 
 /* FACEBOOK OAUTH 2 METHODS */
