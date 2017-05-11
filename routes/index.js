@@ -154,7 +154,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/privacy', (req, res, next) => {
-    res.render('privacy');
+    res.redirect('https://www.iubenda.com/privacy-policy/8121039/legal');
 });
 
 
