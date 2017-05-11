@@ -39,12 +39,12 @@ const makeAirtableRequest = function (type, id) {
     return new Promise(function (resolve, reject) {
         request(options, (err, response, body) => {
             const data = [];
-        if(err) {
-            console.log(`ERROR: GET ${type}`, err );
-            reject({error: err});
-        } else {
-            resolve(body);
-        }
+            if(err) {
+                console.log(`ERROR: GET ${type}`, err );
+                reject({error: err});
+            } else {
+                resolve(body);
+            }
     });
     });
 };
@@ -89,7 +89,7 @@ const getResumeJson = function () {
             const jobs = resume.fields && resume.fields.jobs;
 
             const promiseArray = jobs.map((jobId) => {
-                    return makeAirtableRequest('Jobs', jobId);
+                return makeAirtableRequest('Jobs', jobId);
             });
 
             profileId = resume.fields.profile[0];
@@ -120,14 +120,31 @@ const getUserJson = function (id) {
         if(!user) {
             throw 'User not found';
         } else {
-            return makeAirtableRequest('Profiles', user.fields.profile[0]);
+            if(user.fields.profile) {
+                return makeAirtableRequest('Profiles', user.fields.profile[0]);
+            } else {
+                return new Promise.resolve(user);
+            }
         }
     });
 };
 
 const createUser = function (userId, token) {
-    makeRequest(`https://graph.facebook.com/v2.9/${userId}?access_token=${token}`).then(response => {
-        return makeAirtablePostRequest('Users', {fields: response});
+    let fbId, response;
+    return makeRequest(`https://graph.facebook.com/v2.9/${userId}?access_token=${token}`).then(fbResponse => {
+        const name = fbResponse.name;
+        const [firstName, secondName] = name.split(' ');
+        fbId = fbResponse.id;
+        response = {
+            firstName: firstName,
+            secondName: secondName
+        };
+        return makeAirtablePostRequest('Profiles', {fields: response})
+    }).then(profile => {
+        const profileJson = JSON.parse(profile);
+        return makeAirtablePostRequest('Users', {fields: {fbId: fbId, profile: [profileJson.id]}})
+    }).then(userResponse => {
+        return response;
     });
 };
 
@@ -195,8 +212,10 @@ router.get('/auth', (req, res, next) => {
                 const user = JSON.parse(response);
                 res.render('resume', user.fields);
             }).catch(_ => {
-                createUser(userId, accessToken);
                 //Need to create an account
+                createUser(userId, accessToken).then(user => {
+                    res.render('resume', user);
+                });
             });
         });
     });
