@@ -125,10 +125,21 @@ const getUserJson = function (id) {
     });
 };
 
+const createUser = function (userId, token) {
+    makeRequest(`https://graph.facebook.com/v2.9/${userId}?access_token=${token}`).then(response => {
+        return makeAirtablePostRequest('Users', {fields: response});
+    });
+};
+
 /* GET home page. */
 router.get('/', (req, res, next) => {
   res.render('index', { title: 'Auto Apply Wizard', resume: mockResume });
 });
+
+router.get('/privacy', (req, res, next) => {
+    res.render('privacy');
+});
+
 
 router.get('/user', (req, res, next) => {
     makeAirtableRequest('Resumes', 'rec24nxk9B30x0mNL').then((resume) => {
@@ -179,10 +190,12 @@ router.get('/auth', (req, res, next) => {
         const accessToken = responses[0].access_token;
         const appAccessToken = responses[1].access_token;
         makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(({data}) => {
-            getUserJson(data.user_id).then(response => {
+            const userId = data.user_id;
+            getUserJson(userId).then(response => {
                 const user = JSON.parse(response);
                 res.render('resume', user.fields);
             }).catch(_ => {
+                createUser(userId, accessToken);
                 //Need to create an account
             });
         });
@@ -228,6 +241,6 @@ function createJwt(profile) {
         expiresIn: '2h',
         issuer: 'MY_APP'
     });
-}
+};
 
 module.exports = router;

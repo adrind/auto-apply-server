@@ -5,6 +5,9 @@ body {
 a {
   color: #00B7FF; }
 
+.container {
+  margin-top: 20px; }
+
 .resume-view {
   margin-top: 2rem; }
   .resume-view .resume-preview {
