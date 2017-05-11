@@ -90,7 +90,7 @@ const getResumeJson = function () {
 
             const promiseArray = jobs.map((jobId) => {
                     return makeAirtableRequest('Jobs', jobId);
-        });
+            });
 
             profileId = resume.fields.profile[0];
 
@@ -112,6 +112,18 @@ const getResumeJson = function () {
         });
 };
 
+const getUserJson = function (id) {
+    return makeAirtableRequest('Users').then(userJson => {
+        const users = JSON.parse(userJson).records;
+        const user = users.find(user => {return user.fields.fbId === id;});
+
+        if(!user) {
+            throw 'User not found';
+        } else {
+            return makeAirtableRequest('Profiles', user.fields.profile[0]);
+        }
+    });
+};
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -166,8 +178,13 @@ router.get('/auth', (req, res, next) => {
     Promise.all([makeFacebookAuthRequest(code), makeAppAccessTokenRequest()]).then(responses => {
         const accessToken = responses[0].access_token;
         const appAccessToken = responses[1].access_token;
-        makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(body => {
-            res.render('resume')
+        makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(({data}) => {
+            getUserJson(data.user_id).then(response => {
+                const name = JSON.parse(response).fields.firstName;
+                res.render('resume', {name});
+            }).catch(_ => {
+                //Need to create an account
+            });
         });
     });
 });
