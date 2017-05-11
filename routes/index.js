@@ -180,8 +180,8 @@ router.get('/auth', (req, res, next) => {
         const appAccessToken = responses[1].access_token;
         makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(({data}) => {
             getUserJson(data.user_id).then(response => {
-                const name = JSON.parse(response).fields.firstName;
-                res.render('resume', {name});
+                const user = JSON.parse(response);
+                res.render('resume', user.fields);
             }).catch(_ => {
                 //Need to create an account
             });
