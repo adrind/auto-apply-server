@@ -12,5 +12,7 @@ a {
     height: 400px; }
   .resume-view .resume-field {
     cursor: pointer; }
+  .resume-view #save-resume-btn {
+    margin-top: 20px; }
 
 /*# sourceMappingURL=style.css.map */
