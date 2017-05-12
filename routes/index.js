@@ -45,7 +45,7 @@ const makeAirtableRequest = function (type, id) {
             } else {
                 resolve(body);
             }
-    });
+        });
     });
 };
 
@@ -76,7 +76,7 @@ const makeAirtablePostRequest = function (type, data) {
             } else {
                 resolve(body);
             }
-    });
+        });
     });
 };
 
@@ -85,31 +85,30 @@ const getResumeJson = function () {
         profileId;
 
     return makeAirtableRequest('Resumes', 'recSg0DGtBxyXi3ZM').then((resumeJson) => {
-            const resume = JSON.parse(resumeJson);
-            const jobs = resume.fields && resume.fields.jobs;
+        const resume = JSON.parse(resumeJson);
+        const jobs = resume.fields && resume.fields.jobs;
 
-            const promiseArray = jobs.map((jobId) => {
-                return makeAirtableRequest('Jobs', jobId);
-            });
-
-            profileId = resume.fields.profile[0];
-
-            return Promise.all(promiseArray);
-        }).then((jobs) => {
-            jobs.map((jobJson) => {
-                const job = JSON.parse(jobJson);
-                const fields = job.fields;
-                response.jobs = [];
-                response.jobs.push({id: job.id, fields});
+        const promiseArray = jobs.map((jobId) => {
+            return makeAirtableRequest('Jobs', jobId);
         });
 
-            return makeAirtableRequest('Profiles', profileId);
-        }).then((profileJson) => {
-            const profile = JSON.parse(profileJson);
+        profileId = resume.fields.profile[0];
 
-            response.profile = profile.fields;
-            return response;
+        return Promise.all(promiseArray);
+    }).then((jobs) => {
+        jobs.map((jobJson) => {
+            const job = JSON.parse(jobJson);
+            const fields = job.fields;
+            response.jobs = [];
+            response.jobs.push({id: job.id, fields});
         });
+        return makeAirtableRequest('Profiles', profileId);
+    }).then((profileJson) => {
+        const profile = JSON.parse(profileJson);
+
+        response.profile = profile.fields;
+        return response;
+    });
 };
 
 const getUserJson = function (id) {
@@ -155,43 +154,6 @@ router.get('/', (req, res, next) => {
 
 router.get('/privacy', (req, res, next) => {
     res.redirect('https://www.iubenda.com/privacy-policy/8121039/legal');
-});
-
-
-router.get('/user', (req, res, next) => {
-    makeAirtableRequest('Resumes', 'rec24nxk9B30x0mNL').then((resume) => {
-        res.render('index', { title: 'Auto Apply Wizard', resume: resume });
-    });
-});
-
-router.get('/login', (req, res, next) => {
-    const username = req.query.username,
-        password = req.query.password;
-
-    makeAirtableRequest('Users').then((json) => {
-        const users = JSON.parse(json).records;
-        const user = users.find((record) => { return record.fields.username === username});
-
-        if(user) {
-            if(user.fields.password === password) {
-                getResumeJson().then((response) => {
-                    res.send({status: 200, data: response});
-                });
-            } else {
-                res.send({status: 401, message: 'Incorrect password'});
-            }
-        } else {
-            res.send({status: 401, message: 'User not found'});
-        }
-    });
-});
-
-router.get('/resume', (req, res, next) => {
-    const resumeId = req.params.id;
-
-    getResumeJson().then(response => {
-        res.render('index', { title: 'Auto Apply Wizard', resume: response });
-    });
 });
 
 router.get('/resumeJson', (req, res, next) => {
