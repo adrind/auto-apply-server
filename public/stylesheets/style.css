@@ -11,6 +11,13 @@ a {
 .container {
   margin-top: 20px; }
 
+.skills-preview {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px; }
+  .skills-preview span {
+    margin-right: 10px; }
+
 .resume-view {
   margin-top: 2rem; }
   .resume-view .resume-preview {
