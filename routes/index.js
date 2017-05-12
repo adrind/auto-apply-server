@@ -139,7 +139,7 @@ const createUser = function (userId, token) {
                 type: school.type,
                 year: school.year.name,
                 name: school.school.name,
-                concentration: school.concentration[1].name
+                concentration: school.concentration[0].name
             }
         };
         return makeAirtablePostRequest('Profiles', {fields: {firstName, secondName}})
