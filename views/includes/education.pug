@@ -5,17 +5,21 @@
         option(value="COL") College/university
         option(value="TECH") Business/technical
         option(value="POST") Postgraduate education
+.row.col
+    label(for="education-name" class="col-form-label") Name
+    input(type="text" class="form-control" id="education-name" value=education.name)
+
 .row
     .col
         label(for="education-years" class="col-form-label") Years completed
         input(type="text" class="form-control" id="education-years")
     .col
         label(for="education-graduation" class="col-form-label") Graduation year
-        input(type="text" class="form-control" id="education-graduation")
+        input(type="text" class="form-control" id="education-graduation" value=education.year)
 
 .row.col
     label(for="education-field" class="col-form-label") Field of study
-    input(type="text" class="form-control" id="education-field")
+    input(type="text" class="form-control" id="education-field" value=education.concentration)
 
 button(class="btn btn-info btn-block margin-20" type="submit" id="add-education-btn") Add Education
 

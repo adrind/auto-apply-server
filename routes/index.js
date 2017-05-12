@@ -130,15 +130,23 @@ const getUserJson = function (id) {
 
 const createUser = function (userId, token) {
     let fbId, response;
-    return makeRequest(`https://graph.facebook.com/v2.9/${userId}?access_token=${token}`).then(fbResponse => {
+    return makeRequest(`https://graph.facebook.com/v2.9/me?access_token=${token}&fields=email,name,education`).then(fbResponse => {
         const name = fbResponse.name;
         const [firstName, secondName] = name.split(' ');
+        const school = fbResponse.education[1];
         fbId = fbResponse.id;
         response = {
             firstName: firstName,
-            secondName: secondName
+            secondName: secondName,
+            email: fbResponse.email,
+            education: {
+                type: school.type,
+                year: school.year.name,
+                name: school.school.name,
+                concentration: school.concentration[1].name
+            }
         };
-        return makeAirtablePostRequest('Profiles', {fields: response})
+        return makeAirtablePostRequest('Profiles', {fields: {firstName, secondName}})
     }).then(profile => {
         const profileJson = JSON.parse(profile);
         return makeAirtablePostRequest('Users', {fields: {fbId: fbId, profile: [profileJson.id]}})
