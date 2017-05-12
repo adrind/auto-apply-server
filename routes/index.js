@@ -119,11 +119,7 @@ const getUserJson = function (id) {
         if(!user) {
             throw 'User not found';
         } else {
-            if(user.fields.profile) {
-                return makeAirtableRequest('Profiles', user.fields.profile[0]);
-            } else {
-                return new Promise.resolve(user);
-            }
+            return user.fields.profile ? makeAirtableRequest('Profiles', user.fields.profile[0]) : new Promise.resolve(user);
         }
     });
 };
@@ -180,7 +176,9 @@ router.get('/auth', (req, res, next) => {
             const userId = data.user_id;
             getUserJson(userId).then(response => {
                 const user = JSON.parse(response);
-                res.render('resume', user.fields);
+                let data = user.fields;
+                data.education = {};
+                res.render('resume', data);
             }).catch(_ => {
                 //Need to create an account
                 createUser(userId, accessToken).then(user => {
@@ -192,7 +190,14 @@ router.get('/auth', (req, res, next) => {
 });
 
 router.get('/testResume', (req, res) => {
-    res.render('resume');
+    res.render('resume', {education: {}});
+});
+
+router.post('/addEducation', (req, res) => {
+    const data = req.body;
+    makeAirtablePostRequest('Education', data).then(response => {
+        res.send({status: 200, data: {fields: response}});
+    });
 });
 
 /* FACEBOOK OAUTH 2 METHODS */

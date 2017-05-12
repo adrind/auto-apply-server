@@ -22,20 +22,19 @@ block content
                 h3 While you're applying let us do the typing!
         .row.resume-view
             .col
-                form
-                    +resume-field("+ Contact Information", "contact")
-                        include includes/contact.pug
-                    +resume-field("+ Education", "education")
-                        include includes/education.pug
-                    +resume-field("+ Experience", "experience")
-                        Add a job
-                    +resume-field("+ Skills", "skills")
-                        include includes/skills.pug
-                    +resume-field("+ Objective", "objective")
-                        Some objective
-                    +resume-field("+ References", "references")
-                        Reference
-                    +resume-field("+ Other Information", "other")
-                        Other
-                    button(class="btn btn-primary btn-block" type="submit" id="save-resume-btn") Save Resume
+                +resume-field("+ Contact Information", "contact")
+                    include includes/contact.pug
+                +resume-field("+ Education", "education")
+                    include includes/education.pug
+                +resume-field("+ Experience", "experience")
+                    Add a job
+                +resume-field("+ Skills", "skills")
+                    include includes/skills.pug
+                +resume-field("+ Objective", "objective")
+                    Some objective
+                +resume-field("+ References", "references")
+                    Reference
+                +resume-field("+ Other Information", "other")
+                    Other
+                button(class="btn btn-primary btn-block" type="submit" id="save-resume-btn") Save Resume
             .col.resume-preview
