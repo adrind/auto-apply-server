@@ -38,12 +38,12 @@ const makeAirtableRequest = function (type, id) {
 
     return new Promise(function (resolve, reject) {
         request(options, (err, response, body) => {
-            const data = [];
-            if(err) {
+            const data = JSON.parse(body);
+            if(data.error) {
                 console.log(`ERROR: GET ${type}`, err );
                 reject({error: err});
             } else {
-                resolve(body);
+                resolve(data);
             }
         });
     });
@@ -69,12 +69,12 @@ const makeAirtablePostRequest = function (type, data) {
 
     return new Promise(function (resolve, reject) {
         request.post(options, (err, response, body) => {
-            const data = [];
-            if(err) {
+            const data = JSON.parse(body);
+            if(data.error) {
                 console.log(`ERROR: POST ${type} with ${json}`, err );
                 reject({error: 'Error!!'});
             } else {
-                resolve(body);
+                resolve(data);
             }
         });
     });
@@ -85,24 +85,23 @@ const getJson = function (user) {
     const promiseArr = user.fields.Education.map(ed => {
             return makeAirtableRequest('Education', ed);
     });
-
     return Promise.all(promiseArr).then(edResponses => {
         response.educations = edResponses.map(response => {
-            return JSON.parse(response).fields;
+            return response.fields;
         });
         response.userId = user.id;
         return response;
     }).then(data => {
         return Promise.resolve(makeAirtableRequest('Profiles', user.fields.profile[0]))
     }).then(profileResponse => {
-        response.user = JSON.parse(profileResponse).fields;
+        response.user = profileResponse.fields;
         return response;
     });
 };
 
 const getUserJson = function (id) {
     return makeAirtableRequest('Users').then(userJson => {
-        const users = JSON.parse(userJson).records;
+        const users = userJson.records;
         const user = users.find(user => {return user.fields.fbId === id;});
 
         if(!user) {
@@ -133,8 +132,7 @@ const createUser = function (userId, token) {
         };
         return makeAirtablePostRequest('Profiles', {fields: {firstName, secondName}})
     }).then(profile => {
-        const profileJson = JSON.parse(profile);
-        return makeAirtablePostRequest('Users', {fields: {fbId: fbId, profile: [profileJson.id]}})
+        return makeAirtablePostRequest('Users', {fields: {fbId: fbId, profile: [profile.id]}})
     }).then(userResponse => {
         return response;
     });
