@@ -80,33 +80,22 @@ const makeAirtablePostRequest = function (type, data) {
     });
 };
 
-const getResumeJson = function () {
-    let response = {},
-        profileId;
+const getJson = function (user) {
+    let response = {};
+    const promiseArr = user.fields.Education.map(ed => {
+            return makeAirtableRequest('Education', ed);
+    });
 
-    return makeAirtableRequest('Resumes', 'recSg0DGtBxyXi3ZM').then((resumeJson) => {
-        const resume = JSON.parse(resumeJson);
-        const jobs = resume.fields && resume.fields.jobs;
-
-        const promiseArray = jobs.map((jobId) => {
-            return makeAirtableRequest('Jobs', jobId);
+    return Promise.all(promiseArr).then(edResponses => {
+        response.educations = edResponses.map(response => {
+            return JSON.parse(response).fields;
         });
-
-        profileId = resume.fields.profile[0];
-
-        return Promise.all(promiseArray);
-    }).then((jobs) => {
-        jobs.map((jobJson) => {
-            const job = JSON.parse(jobJson);
-            const fields = job.fields;
-            response.jobs = [];
-            response.jobs.push({id: job.id, fields});
-        });
-        return makeAirtableRequest('Profiles', profileId);
-    }).then((profileJson) => {
-        const profile = JSON.parse(profileJson);
-
-        response.profile = profile.fields;
+        response.userId = user.id;
+        return response;
+    }).then(data => {
+        return Promise.resolve(makeAirtableRequest('Profiles', user.fields.profile[0]))
+    }).then(profileResponse => {
+        response.user = JSON.parse(profileResponse).fields;
         return response;
     });
 };
@@ -119,7 +108,7 @@ const getUserJson = function (id) {
         if(!user) {
             throw 'User not found';
         } else {
-            return user.fields.profile ? makeAirtableRequest('Profiles', user.fields.profile[0]) : new Promise.resolve(user);
+            return user;
         }
     });
 };
@@ -174,11 +163,10 @@ router.get('/auth', (req, res, next) => {
         const appAccessToken = responses[1].access_token;
         makeFacebookValidateTokenRequest(accessToken, appAccessToken).then(({data}) => {
             const userId = data.user_id;
-            getUserJson(userId).then(response => {
-                const user = JSON.parse(response);
-                let data = user.fields;
-                data.education = {};
-                res.render('resume', data);
+            getUserJson(userId).then(user => {
+                getJson(user).then(data => {
+                    res.render('resume', data);
+                });
             }).catch(_ => {
                 //Need to create an account
                 createUser(userId, accessToken).then(user => {
@@ -190,15 +178,25 @@ router.get('/auth', (req, res, next) => {
 });
 
 router.get('/testResume', (req, res) => {
-    res.render('resume', {education: {}});
+    res.render('resume', {education: {}, userId: 'rec24nxk9B30x0mNL'});
 });
 
 router.post('/addEducation', (req, res) => {
     const data = req.body;
-    makeAirtablePostRequest('Education', data).then(response => {
-        res.send({status: 200, data: {fields: response}});
+    data.user = [data.user];
+    makeAirtablePostRequest('Education', {fields: data}).then(response => {
+        res.send({status: 200, data: response});
     });
 });
+
+router.post('/addEducation', (req, res) => {
+    const data = req.body;
+    data.user = [data.user];
+    makeAirtablePostRequest('Profiles', {fields: data}).then(response => {
+        res.send({status: 200, data: response});
+    });
+});
+
 
 /* FACEBOOK OAUTH 2 METHODS */
 

@@ -1,29 +1,37 @@
-form(action="/addEducation/" method="post")
-    .row.col
-        label(for="education-level" class="col-form-label") Level of education
-        select(class="custom-select" id="education-level")
-            option(value="HS") High school
-            option(value="COL") College/university
-            option(value="TECH") Business/technical
-            option(value="POST") Postgraduate education
-    .row.col
-        label(for="education-name" class="col-form-label") Name
-        input(type="text" class="form-control" id="education-name" name="name" value=education.name)
-    .row
-        .col
-            label(for="education-years" class="col-form-label") Years completed
-            input(type="text" class="form-control" id="education-years" name="yearsCompleted")
-        .col
-            label(for="education-graduation" class="col-form-label") Graduation year
-            input(type="text" class="form-control" id="education-graduation" name="yearGraduated" value=education.year)
+- var multipleEducations = educations.length
 
-    .row.col
-        label(for="education-field" class="col-form-label") Field of study
-        input(type="text" class="form-control" id="education-field" name="fieldOfStudy" value=education.concentration)
+if multipleEducations
+    each ed in educations
+        ul
+            li=ed.name
+            li=ed.year
+            li=ed.concentration
+else
+    form(id="add-education-form")
+        .row.col
+            label(for="education-level" class="col-form-label") Level of education
+            select(class="custom-select" id="education-level")
+                option(value="HS") High school
+                option(value="COL") College/university
+                option(value="TECH") Business/technical
+                option(value="POST") Postgraduate education
+        .row.col
+            label(for="education-name" class="col-form-label") Name
+            input(type="text" class="form-control" id="education-name" name="name" value=education.name)
+        .row
+            .col
+                label(for="education-years" class="col-form-label") Years completed
+                input(type="text" class="form-control" id="education-years" name="yearsCompleted")
+            .col
+                label(for="education-graduation" class="col-form-label") Graduation year
+                input(type="text" class="form-control" id="education-graduation" name="yearGraduated" value=education.year)
 
-    input(type="hidden" value=firstName)
+        .row.col
+            label(for="education-field" class="col-form-label") Field of study
+            input(type="text" class="form-control" id="education-field" name="fieldOfStudy" value=education.concentration)
 
-    button(class="btn btn-info btn-block margin-20" type="submit" id="add-education-btn") Add Education
+        input(type="hidden" value=userId name="user")
 
+        button(class="btn btn-info btn-block margin-20" type="button" id="add-education-btn") Add Education
 
 
