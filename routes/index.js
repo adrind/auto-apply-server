@@ -82,7 +82,8 @@ const makeAirtablePostRequest = function (type, data) {
 
 const getJson = function (user) {
     let response = {};
-    const promiseArr = user.fields.Education.map(ed => {
+
+    const promiseArr = user.fields.Education && user.fields.Education.map(ed => {
             return makeAirtableRequest('Education', ed);
     });
     return Promise.all(promiseArr).then(edResponses => {
@@ -176,7 +177,11 @@ router.get('/auth', (req, res, next) => {
 });
 
 router.get('/testResume', (req, res) => {
-    res.render('resume', {education: {}, userId: 'rec24nxk9B30x0mNL'});
+    makeAirtableRequest('Users', 'rec24nxk9B30x0mNL').then(user => {
+       return getJson(user)
+    }).then(data => {
+        res.render('resume', {education: {}, userId: 'rec24nxk9B30x0mNL'});
+    });
 });
 
 router.post('/addEducation', (req, res) => {

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5aea8218-99f6-411b-825c-a10dd93b8e2c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/resume.pug" afterPath="$PROJECT_DIR$/views/resume.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -36,7 +37,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="335">
               <caret line="40" column="10" lean-forward="true" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
-              <folding />
+              <folding>
+                <marker date="1494642183000" expanded="true" signature="59:1089" ph="{&quot;selector&quot;: '##skills-field'...}" />
+                <marker date="1494642183000" expanded="true" signature="1252:1405" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,8 +68,8 @@
       <file leaf-file-name="resume.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/resume.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
+            <state relative-caret-position="15">
+              <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -74,7 +78,7 @@
       <file leaf-file-name="contact.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/includes/contact.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
+            <state relative-caret-position="375">
               <caret line="25" column="30" lean-forward="true" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
               <folding />
             </state>
@@ -104,8 +108,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="165" column="19" lean-forward="false" selection-start-line="165" selection-start-column="19" selection-end-line="165" selection-end-column="19" />
+            <state relative-caret-position="163">
+              <caret line="85" column="48" lean-forward="false" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -145,13 +149,13 @@
         <option value="$PROJECT_DIR$/public/stylesheets/bootstrap3-typeahead.min.js" />
         <option value="$PROJECT_DIR$/views/includes/skills.pug" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.sass" />
-        <option value="$PROJECT_DIR$/views/resume.pug" />
         <option value="$PROJECT_DIR$/public/javascripts/bootstrap3-typeahead.min.js" />
         <option value="$PROJECT_DIR$/views/layout.pug" />
         <option value="$PROJECT_DIR$/public/javascripts/app.js" />
         <option value="internal/process/next_tick.js" />
         <option value="$PROJECT_DIR$/views/includes/contact.pug" />
         <option value="$PROJECT_DIR$/views/includes/education.pug" />
+        <option value="$PROJECT_DIR$/views/resume.pug" />
         <option value="$PROJECT_DIR$/routes/index.js" />
       </list>
     </option>
@@ -356,12 +360,12 @@
       <workItem from="1492989184170" duration="32664000" />
       <workItem from="1494435476323" duration="31417000" />
       <workItem from="1494630036535" duration="472000" />
-      <workItem from="1494634627313" duration="6906000" />
+      <workItem from="1494634627313" duration="8403000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71668000" />
+    <option name="totallyTimeSpent" value="73165000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="3" y="23" width="1264" height="684" extended-state="0" />
@@ -422,7 +426,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>185</line>
+          <line>190</line>
           <properties />
           <option name="timeStamp" value="75" />
         </line-breakpoint>
@@ -764,23 +768,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
           <caret line="40" column="10" lean-forward="true" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/resume.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="26" column="34" lean-forward="false" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/includes/contact.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="25" column="30" lean-forward="true" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-          <folding />
+          <folding>
+            <marker date="1494642183000" expanded="true" signature="59:1089" ph="{&quot;selector&quot;: '##skills-field'...}" />
+            <marker date="1494642183000" expanded="true" signature="1252:1405" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -792,10 +783,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/includes/contact.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="30" lean-forward="true" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/resume.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="165" column="19" lean-forward="false" selection-start-line="165" selection-start-column="19" selection-end-line="165" selection-end-column="19" />
+        <state relative-caret-position="163">
+          <caret line="85" column="48" lean-forward="false" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
           <folding />
         </state>
       </provider>
