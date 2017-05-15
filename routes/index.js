@@ -41,6 +41,18 @@ const getJson = function (user) {
         return profilePromise;
     }).then(profileResponse => {
         response.user = profileResponse.fields;
+        response.user.id = profileResponse.id;
+
+        let skillsPromiseArr = [];
+        let skills = profileResponse.fields.skills && profileResponse.fields.skills.split(',');
+
+        if(skills) {
+            skillsPromiseArr = skills.map(skill => getSkillRequest(skill));
+        }
+
+        return Promise.all(skillsPromiseArr);
+    }).then(skills => {
+        response.skills = skills;
         return response;
     });
 };
@@ -119,6 +131,16 @@ router.post('/education', (req, res) => {
     });
 });
 
+router.post('/skills', (req, res) => {
+   const data = req.body;
+   const id = data.id;
+   delete data.id;
+
+   airtable.patch('Profiles', {fields: data}, id).then(response => {
+       res.send({status: 200, data:response});
+   });
+});
+
 router.patch('/education', (req, res) => {
     const data = req.body;
     const id = data.id;
@@ -137,11 +159,25 @@ router.post('/profile', (req, res) => {
     });
 });
 
-
+//TODO: session storage stuff
 function createJwt(profile) {
     return jwt.sign(profile, 'soooosecret', {
         expiresIn: '2h',
         issuer: 'MY_APP'
+    });
+};
+
+const getSkillRequest = function (skillId) {
+    return new Promise(function (resolve, reject) {
+        request(`http://api.dataatwork.org/v1/skills/${skillId}`, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                const body = JSON.parse(response.body);
+                resolve({name: body.normalized_skill_name, id:body.uuid});
+            } else {
+                console.log('ERROR', error);
+                reject(error);
+            }
+        });
     });
 };
 

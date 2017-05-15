@@ -1,11 +1,16 @@
+form(class="update-skills-form")
+    .row.col
+        div(class="skills-preview")
+            div(id="log")
+                each skill in skills
+                    span(class="badge badge-success skill" data-value=skill.name data-id=skill.id)= skill.name
+        .ui-widget
+            label(for="skills-field") Skills
+            input(id="skills-field" type="text" class="form-control")
+    input(type="hidden" class="profile-id" value=user.id name="profile")
+
 .row.col
-    div(class="skills-preview")
-        div(id="log")
-    .ui-widget
-        label(for="skills-field") Skills
-        input(id="skills-field" type="text" class="form-control")
-.row.col
-    button(class="btn btn-info btn-block margin-20" type="submit" id="save-resume-btn") Add Skills
+    button(class="btn btn-info btn-block margin-20 update-skills-btn" type="submit") Add Skills
 
 
 
