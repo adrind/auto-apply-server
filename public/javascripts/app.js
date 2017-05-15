@@ -54,4 +54,8 @@ $( function() {
         patch('http://localhost:3000/education', data);
     });
 
+    $('.close').click(function (evt) {
+        $(evt.target).parent().parent().hide();
+    });
+
 });

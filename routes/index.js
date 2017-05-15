@@ -18,6 +18,7 @@ const FB_CLIENT_ID = '1523477781017871',
       FB_REDIRECT_URI = 'http://localhost:3000/auth';
 
 
+//Core method to fetch all user information
 const getJson = function (user) {
     let response = {},
         edPromises = [],
@@ -92,9 +93,15 @@ router.get('/privacy', (req, res, next) => {
     res.redirect('https://www.iubenda.com/privacy-policy/8121039/legal');
 });
 
-router.get('/resumeJson', (req, res, next) => {
-    getResumeJson().then(response => {
-        res.send(response);
+router.get('/user/:id', (req, res, next) => {
+    const userId = req.params.id;
+    getUserJson(userId).then(user => {
+        return getJson(user);
+    }).then(data => {
+        res.send({data});
+    }).catch(response => {
+        //TODO: better error handling
+        res.send({status: 500});
     });
 });
 

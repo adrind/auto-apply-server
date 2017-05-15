@@ -7,6 +7,9 @@ mixin ed-card(education, id)
 
 mixin ed-form(education, method, hidden)
     form(id="add-education-form" class=hidden)
+        if hidden
+            button(type="button" class="close" aria-label="Close")
+                span(aria-hidden="true") &times;
         .row.col
             label(for="education-level" class="col-form-label") Level of education
             select(class="custom-select" id="education-level")
@@ -32,6 +35,7 @@ mixin ed-form(education, method, hidden)
         input(type="hidden" value=userId name="user")
         input(type="hidden" value=education.id name="id")
         button(class="btn btn-info btn-block margin-20" type="button" class=method) Add Education
+
 
 
 - var multipleEducations = educations.length
