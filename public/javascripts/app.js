@@ -25,25 +25,33 @@ $( function() {
         }
     });
 
-    var makeRequest = function (url, formId) {
+    var post = function (url, formId) {
         return $.post(url, $(formId).serialize());
+    };
+
+    var patch = function (url, data) {
+        return $.ajax({url: url, data: data, type: 'PATCH'});
     };
     
     $('#add-education-btn').click(function (evt) {
-        makeRequest('http://localhost:3000/education', '#add-education-form').done(function () {
+        post('http://localhost:3000/education', '#add-education-form').done(function () {
             console.log('success')
         })
     });
 
     $('#add-contact-btn').click(function (evt) {
-        makeRequest('http://localhost:3000/profile', '#add-contact-form').done(function () {
+        post('http://localhost:3000/profile', '#add-contact-form').done(function () {
             console.log('success')
         })
     });
     
-    $('.edit-education').click(function (evt) {
-        console.log('evt', evt)
-        
+    $('.edit-education-link').click(function (evt) {
+        $(evt.target).siblings('form').show();
+    });
+
+    $('.update-education-btn').click(function (evt) {
+        var data = $(evt.target).parent('form').serialize();
+        patch('http://localhost:3000/education', data);
     });
 
 });

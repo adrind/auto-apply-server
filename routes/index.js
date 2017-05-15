@@ -32,7 +32,10 @@ const getJson = function (user) {
     }
 
     return Promise.all(edPromises).then(edResponses => {
-        response.educations = edResponses.map(response => response.fields);
+        response.educations = edResponses.map(({id, fields}) => {
+            fields.id = id;
+            return fields;
+        });
         response.userId = user.id;
         return profilePromise;
     }).then(profileResponse => {
@@ -111,8 +114,10 @@ router.post('/education', (req, res) => {
 
 router.patch('/education', (req, res) => {
     const data = req.body;
+    const id = data.id;
+    delete data.id; //airtable wont accept id as a param
     data.user = [data.user];
-    airtable.patch('Education', {fields: data}).then(response => {
+    airtable.patch('Education', {fields: data}, id).then(response => {
         res.send({status: 200, data: response});
     });
 });

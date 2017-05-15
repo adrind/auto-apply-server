@@ -64,11 +64,12 @@ const makeAirtablePostRequest = function (type, data) {
     });
 };
 
-const makeAirtablePatchRequest = function (type, data) {
+const makeAirtablePatchRequest = function (type, data, id) {
     let json = JSON.stringify(data);
+    const url = `https://api.airtable.com/v0/appug4I94DtYLCzFY/${type}/${id}`;
 
     const options = {
-        url: `https://api.airtable.com/v0/appug4I94DtYLCzFY/${type}`,
+        url: url,
         headers: {
             'Authorization': `Bearer ${AIR_TABLE_ID}`,
             'Content-type': 'application/json'

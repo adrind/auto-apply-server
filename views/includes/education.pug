@@ -1,8 +1,8 @@
 mixin ed-card(education, id)
     .card.card-block
         h4.card-title=education.name
-        p.card-text="Graduated in" + education.year
-        a(href="#" class="edit-education") Edit education
+        p.card-text="Graduated in " + education.year
+        a(href="#" class="edit-education-link") Edit education
         +ed-form(education, "update-education-btn", "hidden")
 
 mixin ed-form(education, method, hidden)
@@ -23,15 +23,15 @@ mixin ed-form(education, method, hidden)
                 input(type="text" class="form-control" id="education-years" name="yearsCompleted")
             .col
                 label(for="education-graduation" class="col-form-label") Graduation year
-                input(type="text" class="form-control" id="education-graduation" name="yearGraduated" value=education.year)
+                input(type="text" class="form-control" id="education-graduation" name="year" value=education.year)
 
         .row.col
             label(for="education-field" class="col-form-label") Field of study
-            input(type="text" class="form-control" id="education-field" name="fieldOfStudy" value=education.concentration)
+            input(type="text" class="form-control" id="education-field" name="fieldOfStudy" value=education.fieldOfStudy)
 
         input(type="hidden" value=userId name="user")
-
-        button(class="btn btn-info btn-block margin-20" type="button" id=method) Add Education
+        input(type="hidden" value=education.id name="id")
+        button(class="btn btn-info btn-block margin-20" type="button" class=method) Add Education
 
 
 - var multipleEducations = educations.length
