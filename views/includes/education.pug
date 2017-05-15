@@ -1,13 +1,12 @@
-- var multipleEducations = educations.length
+mixin ed-card(education, id)
+    .card.card-block
+        h4.card-title=education.name
+        p.card-text="Graduated in" + education.year
+        a(href="#" class="edit-education") Edit education
+        +ed-form(education, "update-education-btn", "hidden")
 
-if multipleEducations
-    each ed in educations
-        ul
-            li=ed.name
-            li=ed.year
-            li=ed.concentration
-else
-    form(id="add-education-form")
+mixin ed-form(education, method, hidden)
+    form(id="add-education-form" class=hidden)
         .row.col
             label(for="education-level" class="col-form-label") Level of education
             select(class="custom-select" id="education-level")
@@ -32,6 +31,15 @@ else
 
         input(type="hidden" value=userId name="user")
 
-        button(class="btn btn-info btn-block margin-20" type="button" id="add-education-btn") Add Education
+        button(class="btn btn-info btn-block margin-20" type="button" id=method) Add Education
 
+
+- var multipleEducations = educations.length
+- var newEducation = {}
+
+    if multipleEducations
+        each ed in educations
+            +ed-card(ed)
+
+    +ed-form(newEducation, "add-education-btn", "")
 

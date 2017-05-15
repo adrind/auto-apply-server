@@ -30,15 +30,20 @@ $( function() {
     };
     
     $('#add-education-btn').click(function (evt) {
-        makeRequest('http://localhost:3000/addEducation', '#add-education-form').done(function () {
+        makeRequest('http://localhost:3000/education', '#add-education-form').done(function () {
             console.log('success')
         })
     });
 
     $('#add-contact-btn').click(function (evt) {
-        makeRequest('http://localhost:3000/addContact', '#add-contact-form').done(function () {
+        makeRequest('http://localhost:3000/profile', '#add-contact-form').done(function () {
             console.log('success')
         })
+    });
+    
+    $('.edit-education').click(function (evt) {
+        console.log('evt', evt)
+        
     });
 
 });
