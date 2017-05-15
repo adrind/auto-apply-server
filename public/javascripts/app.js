@@ -21,12 +21,12 @@ $( function() {
             return '<div class="autocomplete-suggestion" data-value="'+item.value+'" data-id=' + item.id + '>' + item.value + '</div>';
         },
         onSelect: function (e, term, item) {
-            $('#log').append('<span class="badge badge-success" data-id=' + item.dataset['id'] + '>' + item.dataset['value'] + '</span>')
+            $('#log').append('<span class="badge badge-success skill" data-value="'+item.value+'" data-id=' + item.dataset['id'] + '>' + item.dataset['value'] + '</span>')
         }
     });
 
-    var post = function (url, formId) {
-        return $.post(url, $(formId).serialize());
+    var post = function (url, data) {
+        return $.post(url, data);
     };
 
     var patch = function (url, data) {
@@ -34,13 +34,15 @@ $( function() {
     };
     
     $('#add-education-btn').click(function (evt) {
-        post('http://localhost:3000/education', '#add-education-form').done(function () {
+        var data = $('#add-education-form').serialize();
+        post('http://localhost:3000/education', data).done(function () {
             console.log('success')
         })
     });
 
     $('#add-contact-btn').click(function (evt) {
-        post('http://localhost:3000/profile', '#add-contact-form').done(function () {
+        var data = $('#add-contact-form').serialize();
+        post('http://localhost:3000/profile', data).done(function () {
             console.log('success')
         })
     });
@@ -57,5 +59,19 @@ $( function() {
     $('.close').click(function (evt) {
         $(evt.target).parent().parent().hide();
     });
+    
+    $('.update-skills-btn').click(function (evt) {
+        var skills = $('.update-skills-form').find('.skill');
+        var skillIds = $.map(skills, function (skill) {
+            return $(skill).data('id');
+        });
+
+        var data = {
+            skills: skillIds.join(','),
+            id: $('.profile-id').val()
+        };
+
+        post('http://localhost:3000/skills', data);
+    })
 
 });
