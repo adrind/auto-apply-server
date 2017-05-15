@@ -7,6 +7,9 @@ body {
   body .margin-20 {
     margin-top: 2rem; }
 
+.hidden {
+  display: none; }
+
 a {
   color: #00B7FF; }
 

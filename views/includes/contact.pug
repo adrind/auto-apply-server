@@ -1,17 +1,27 @@
-.row
-    .col.form-group
-        label(for="first-name-field" class="col-form-label") First name
-        input(type="text" class="form control" id="first-name-field" value=firstName)
-    .col.form-group
-        label(for="last-name-field" class="col-form-label") Last name
-        input(type="text" class="form control" id="last-name-field" value=secondName)
-.row.col.form-group
-    label(for="address-field" class="col-form-label") Address
-    input(type="text" class="form control" id="address-field" value=address)
-.row.col.form-group
-    label(for="phone-field" class="col-form-label") Phone number
-    input(type="text" class="form control" id="phone-field" value=phone)
-.row.col.form-group
-    label(for="email-field" class="col-form-label") Email address
-    input(type="text" class="form control" id="email-field" value=email)
+form(id="add-contact")
+    .row
+        .col.form-group
+            label(for="first-name-field" class="col-form-label") First name
+            input(type="text" class="form control" id="first-name-field" value=user.firstName name="firstName")
+        .col.form-group
+            label(for="last-name-field" class="col-form-label") Last name
+            input(type="text" class="form control" id="last-name-field" value=user.secondName name="secondName")
+    .row.col.form-group
+        label(for="address-field" class="col-form-label") Address
+        input(type="text" class="form control" id="address-field" value=user.address name="address")
+    .row
+        .col.form-group
+            label(for="city-field" class="col-form-label") City
+            input(type="text" class="form control" id="city-field" value=user.city name="city")
+        .col.form-group
+            label(for="zip-field" class="col-form-label") Zip Code
+            input(type="text" class="form control" id="zip-field" value=user.zip name="zip")
+    .row.col.form-group
+        label(for="phone-field" class="col-form-label") Phone number
+        input(type="text" class="form control" id="phone-field" value=user.phone name="phone")
+    .row.col.form-group
+        label(for="email-field" class="col-form-label") Email address
+        input(type="text" class="form control" id="email-field" value=user.email name="email")
 
+    input(type="hidden" value=userId name="user")
+    button(class="btn btn-info btn-block margin-20" type="button" id="add-contact-btn") Update contact info

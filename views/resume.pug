@@ -1,13 +1,13 @@
 extends layout
 
-mixin resume-field(fieldName, id)
+mixin resume-field(fieldName, id, show)
     div(id="accordion" role="tablist" aria-multiselectable="true")
         .card
             div(class="card-header" role="tab" id="headingOne")
                 h5(class="mb-0 collapsed resume-field" data-toggle="collapse" data-parent="#accordion" href="#field"+id aria-expanded="true" aria-controls="collapseOne")
                     a=fieldName
 
-            div(id="field"+id class="collapse" role="tabpanel" aria-labelledby="headingOne")
+            div(id="field"+id class="collapse"+show role="tabpanel" aria-labelledby="headingOne")
                 .card-block
                     block
 
@@ -18,11 +18,11 @@ block content
                 h1 Resume Builder
         .row
             .col
-                h2 Welcome back #{firstName}
+                h2 Welcome back #{user.firstName}
                 h3 While you're applying let us do the typing!
         .row.resume-view
             .col
-                +resume-field("+ Contact Information", "contact")
+                +resume-field("+ Contact Information", "contact", " show")
                     include includes/contact.pug
                 +resume-field("+ Education", "education")
                     include includes/education.pug
